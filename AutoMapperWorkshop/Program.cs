@@ -24,7 +24,9 @@ namespace AutoMapperWorkshop
         /// </summary>
         static void initialize()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Order, OrderDto>());
+            Mapper.Initialize(cfg => cfg.CreateMap<Order, OrderDto>()
+                .ForMember(dest => dest.Total, opt => opt.MapFrom(x => x.OrderLineItems.Sum(y => y.Product.Price * y.Quantity)))
+            );
         }
 
         /// <summary>
@@ -33,21 +35,13 @@ namespace AutoMapperWorkshop
         /// </summary>
         static void flattening()
         {
-            var order = new Order
-            {
-                Customer = new Customer
-                {
-                    Name = "Petr Paleček"
-                }
-            };
+            var order = new Order { Customer = new Customer { Name = "Petr Paleček" } };
 
-            var product = new Product
-            {
-                Name = "Sluchátka",
-                Price = 500m,
-            };
+            var product1 = new Product{ Name = "Sluchátka", Price = 500m, };
+            var product2 = new Product { Name = "Televize", Price = 8000m, };
 
-            order.AddOrderLineItem(product, 1);            
+            order.AddOrderLineItem(product1, 2);
+            order.AddOrderLineItem(product2, 1);
 
             var dto = Mapper.Map<Order, OrderDto>(order);
 
