@@ -24,7 +24,10 @@ namespace AutoMapperWorkshop
         /// </summary>
         static void initialize()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Order, OrderDto>());
+            Mapper.Initialize(cfg => cfg.CreateMap<Order, OrderDto>()
+            .ForMember(
+                    dest => dest.Total,
+                    opt => opt.MapFrom(src => src.OrderLineItems.Sum(li => li.GetTotal()))));
         }
 
         /// <summary>
@@ -47,12 +50,12 @@ namespace AutoMapperWorkshop
                 Price = 500m,
             };
 
-            order.AddOrderLineItem(product, 1);            
+            order.AddOrderLineItem(product, 3);
 
             var dto = Mapper.Map<Order, OrderDto>(order);
 
             Console.Out.WriteLine(JsonConvert.SerializeObject(order, Formatting.Indented));
-            Console.Out.WriteLine(JsonConvert.SerializeObject(dto, Formatting.Indented));            
+            Console.Out.WriteLine(JsonConvert.SerializeObject(dto, Formatting.Indented));
         }
     }
 }
