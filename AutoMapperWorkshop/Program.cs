@@ -3,6 +3,7 @@ using AutoMapperWorkshop.Dto;
 using AutoMapperWorkshop.Model;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 
 namespace AutoMapperWorkshop
 {
@@ -46,9 +47,9 @@ namespace AutoMapperWorkshop
                 Price = 500m,
             };
 
-            var dto = Mapper.Map<Order, OrderDto>(order);
+            order.AddOrderLineItem(product, 1);            
 
-            order.AddOrderLineItem(product, 15);
+            var dto = Mapper.Map<Order, OrderDto>(order);
 
             Console.Out.WriteLine(JsonConvert.SerializeObject(order, Formatting.Indented));
             Console.Out.WriteLine(JsonConvert.SerializeObject(dto, Formatting.Indented));            
