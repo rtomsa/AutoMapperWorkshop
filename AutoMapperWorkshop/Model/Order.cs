@@ -22,9 +22,16 @@ namespace AutoMapperWorkshop
 
         public IList<OrderLineItem> OrderLineItems { get { return _orderLineItems; } }
 
+<<<<<<< HEAD
     //    public decimal GetTotal()
     //    {
     //        return _orderLineItems.Sum(li => li.GetTotal());
     //    }
+=======
+        /*public decimal GetTotal()
+        {
+            return _orderLineItems.Sum(li => li.GetTotal());
+        }*/
+>>>>>>> c19b5af290189607f7cd1ad6a0efdc3c7540cb78
     }
 }
