@@ -20,6 +20,8 @@ namespace AutoMapperWorkshop
             _orderLineItems.Add(new OrderLineItem(product, quantity));
         }
 
+        public IList<OrderLineItem> OrderLineItems { get { return _orderLineItems; } }
+
         public decimal GetTotal()
         {
             return _orderLineItems.Sum(li => li.GetTotal());
