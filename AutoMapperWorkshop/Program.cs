@@ -24,7 +24,8 @@ namespace AutoMapperWorkshop
         /// </summary>
         static void initialize()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Order, OrderDto>());
+            Mapper.Initialize(cfg => cfg.CreateMap<Order, OrderDto>()
+                .ForMember(dest => dest.Total, expression => expression.MapFrom(order => order.OrderLineItems.Sum(li => li.GetTotal()))));
         }
 
         /// <summary>
@@ -47,7 +48,12 @@ namespace AutoMapperWorkshop
                 Price = 500m,
             };
 
-            order.AddOrderLineItem(product, 1);            
+            order.AddOrderLineItem(product, 1);
+            order.AddOrderLineItem(new Product
+            {
+                Name = "xy",
+                Price = 1.42m
+            }, 43);
 
             var dto = Mapper.Map<Order, OrderDto>(order);
 
